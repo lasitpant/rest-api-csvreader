@@ -41,11 +41,13 @@ public class DocumentService {
     private Param param ;
 
     public Document settingParameter(DataFilter dataFilter) throws Exception {
+       
+
         if (dataFilter == null){
            this.param = Param.ALL;
-        }else if (dataFilter.getEvenRecords() != null){
+        }else if (dataFilter.getEven() != null){
             this.param = Param.EVEN;
-        }else if (dataFilter.getOddRecords() != null ){
+        }else if (dataFilter.getOdd() != null ){
             this.param = Param.ODD;
         }
 
@@ -70,6 +72,8 @@ public class DocumentService {
         if (files.size() == 0){
             throw new Exception("No File found");
         }
+
+        String fileName = files.get(0).getFileName().toString();
 
         //stream the csv file
         try (InputStream in = new FileInputStream(files.get(0).toString());) {
@@ -116,7 +120,7 @@ public class DocumentService {
                 count = count + 1;
             }
 
-            return this.saveToMongo(list);
+            return this.saveToMongo(fileName,list);
         } catch (UnsupportedEncodingException e) {
             throw new UnsupportedEncodingException("Error Parsing Csv File.");
         } catch (IOException e) {
@@ -124,8 +128,8 @@ public class DocumentService {
         }
     }
 
-    private Document saveToMongo(List<Map<String, String>> list){
-        Document document = new Document("test",list);
+    private Document saveToMongo(String fileName, List<Map<String, String>> list){
+        Document document = new Document(fileName,list);
         documentRepository.save(document);
         return document;
     }

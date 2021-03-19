@@ -5,11 +5,11 @@ public class DataFilter {
     String odd;
     String all;
 
-    public String getEvenRecords(){
+    public String getEven(){
         return  this.even;
     }
 
-    public String getOddRecords(){
+    public String getOdd(){
         return this.odd;
     }
 
