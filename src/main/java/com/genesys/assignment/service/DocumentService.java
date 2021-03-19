@@ -60,15 +60,16 @@ public class DocumentService {
                 .collect(Collectors.toList());
 
 
-        if (result.size() == 0){
-            throw new Exception("No File found");
-        }
         return result;
     }
 
     public Document filterAndPopulateJson() throws Exception {
         //walk over the csv file and add it to the list.
         List<Path> files = this.loadCSVFile();
+
+        if (files.size() == 0){
+            throw new Exception("No File found");
+        }
 
         //stream the csv file
         try (InputStream in = new FileInputStream(files.get(0).toString());) {
